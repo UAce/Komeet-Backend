@@ -1,8 +1,8 @@
-import { v4 as UUIDv4 } from "uuid";
+import { v4 as UUIDv4 } from 'uuid';
 /**
  * Data Model Interfaces
  */
-import { BaseEvent, Event, Events } from "./interfaces";
+import { BaseEvent, Event, Events } from './interfaces';
 
 /**
  * In-Memory Store
@@ -17,59 +17,54 @@ const items: Events = {};
 //   return Object.values(items);
 // };
 
-export const find = async (id: string): Promise<Event> => {
-  return items[id];
-};
+export const find = async (id: string): Promise<Event> => items[id];
 
 export const create = async (newEvent: BaseEvent): Promise<Event> => {
-  const id: string = UUIDv4();
+    const id: string = UUIDv4();
 
-  items[id] = {
-    id,
-    ...newEvent
-  };
+    items[id] = {
+        id,
+        ...newEvent
+    };
 
-  return items[id];
+    return items[id];
 };
 
-export const update = async (
-  id: string,
-  itemUpdate: BaseEvent
-): Promise<Event | null> => {
-  const item = await find(id);
+export const update = async (id: string, itemUpdate: BaseEvent): Promise<Event | null> => {
+    const item = await find(id);
 
-  if (!item) {
-    console.warn(`Event [${id}] does not exist`);
-    return null;
-  }
+    if (!item) {
+        console.warn(`Event [${id}] does not exist`);
+        return null;
+    }
 
-  items[id] = { id, ...itemUpdate };
+    items[id] = { id, ...itemUpdate };
 
-  return items[id];
+    return items[id];
 };
 
 export const remove = async (id: string): Promise<void> => {
-  const item = await find(id);
+    const item = await find(id);
 
-  if (item) {
-    delete items[id];
-  }
+    if (item) {
+        delete items[id];
+    }
 };
 
 /**
  * Populate In-Memory Store
  */
 const initialEvents: BaseEvent[] = [
-  {
-    name: "March Book Club",
-    description: "At Park Lafontaine from 2pm to 3pm",
-    calendarType: "dates",
-    selected: ["2022-05-30"]
-  }
+    {
+        name: 'March Book Club',
+        description: 'At Park Lafontaine from 2pm to 3pm',
+        calendarType: 'dates',
+        selected: ['2022-05-30']
+    }
 ];
 
 Promise.all(
-  initialEvents.map(async (event: BaseEvent) => {
-    await create(event);
-  })
+    initialEvents.map(async (event: BaseEvent) => {
+        await create(event);
+    })
 );

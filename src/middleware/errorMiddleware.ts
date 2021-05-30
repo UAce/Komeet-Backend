@@ -1,21 +1,12 @@
-import HttpException from "../common/httpException";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from 'express';
+import HttpException from '../common/httpException';
 
-export const errorHandler = (
-    error: HttpException,
-    request: Request,
-    response: Response,
-    next: NextFunction
-) => {
+export const errorHandler = (error: HttpException, _: Request, response: Response): void => {
     const status = error.statusCode || error.status || 500;
     response.status(status).send(error);
 };
 
-export const notFoundHandler = (
-    request: Request,
-    response: Response,
-    next: NextFunction
-) => {
+export const notFoundHandler = (request: Request, response: Response): void => {
     const message = `The requested path ${request.path} was not found`;
     console.error(message);
     response.status(404).send(message);
