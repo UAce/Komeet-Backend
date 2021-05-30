@@ -17,7 +17,10 @@ dotenv.config();
 /**
  * App Variables
  */
-const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '_');
+const date: string = new Date()
+    .toISOString()
+    .split('T')[0]
+    .replace(/-/g, '_');
 const port: number = process.env.PORT ? Number(process.env.PORT) : 3000;
 const app = express(); // Creates Express app
 
@@ -44,7 +47,7 @@ app.use(
 
 // Routes Middlewares
 app.use('/health', (_: Request, res: Response) => res.send('Server is running!'));
-app.use('/api/events', EventsRouter);
+app.use('/komeet/v1/events', EventsRouter);
 
 // Error Middlewares
 app.use(errorHandler);

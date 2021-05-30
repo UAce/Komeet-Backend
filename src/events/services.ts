@@ -1,4 +1,5 @@
-import { v4 as UUIDv4 } from 'uuid';
+import { nanoid } from 'nanoid';
+
 /**
  * Data Model Interfaces
  */
@@ -6,6 +7,7 @@ import { BaseEvent, Event, Events } from './interfaces';
 import Logger from '../common/logger';
 
 const logger = Logger.getInstance({ name: __filename });
+
 /**
  * In-Memory Store
  * TODO: Store in MongoDB
@@ -15,17 +17,21 @@ const items: Events = {};
 /**
  * Service Methods
  */
-// export const findAll = async (): Promise<Event[]> => {
-//   return Object.values(items);
-// };
+export const findAll = async (): Promise<Event[]> => {
+    return Object.values(items);
+};
 
 export const find = async (id: string): Promise<Event> => items[id];
 
 export const create = async (newEvent: BaseEvent): Promise<Event> => {
-    const id: string = UUIDv4();
+    const id: string = nanoid();
 
     items[id] = {
         id,
+        startTime: '9:00',
+        endTime: '12:00',
+        timezone: 'America/Montreal',
+        maxParticipants: 20,
         ...newEvent
     };
 
@@ -39,8 +45,7 @@ export const update = async (id: string, itemUpdate: BaseEvent): Promise<Event |
         logger.warn(`Event [${id}] does not exist`);
         return null;
     }
-
-    items[id] = { id, ...itemUpdate };
+    items[id] = { ...item, ...itemUpdate };
 
     return items[id];
 };

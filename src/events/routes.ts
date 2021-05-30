@@ -9,90 +9,102 @@ const Router = express.Router();
  * Get all events
  * GET events
  */
-// Router.get("/", async (req: Request, res: Response) => {
-//   try {
-//     const events: Event[] = await EventSvc.findAll();
+Router.get('/', async (req: Request, res: Response) => {
+    try {
+        const events: Event[] = await EventSvc.findAll();
 
-//     res.status(200).send(events);
-//   } catch (error) {
-//     res.status(500).send(error.message);
-//   }
-// });
+        res.status(200).send(events);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 
 /**
  * Get event by Id
  * GET events/:id
  */
-Router.get('/:id', async (req: Request, res: Response): Promise<any> => {
-    const { id } = req.params;
+Router.get(
+    '/:id',
+    async (req: Request, res: Response): Promise<any> => {
+        const { id } = req.params;
 
-    try {
-        const event: Event = await EventSvc.find(id);
+        try {
+            const event: Event = await EventSvc.find(id);
 
-        if (event) {
-            return res.status(200).send(event);
+            if (event) {
+                return res.status(200).send(event);
+            }
+
+            return res.status(404).send(`event [${id}] not found`);
+        } catch (error) {
+            return res.status(500).send(error.message);
         }
-
-        return res.status(404).send(`event [${id}] not found`);
-    } catch (error) {
-        return res.status(500).send(error.message);
     }
-});
+);
 
 /**
  * Create event
  * POST events
  */
-Router.post('/', async (req: Request, res: Response): Promise<void> => {
-    try {
-        const event: BaseEvent = req.body;
+Router.post(
+    '/',
+    async (req: Request, res: Response): Promise<void> => {
+        try {
+            const event: BaseEvent = req.body;
 
-        const newEvent = await EventSvc.create(event);
+            const newEvent = await EventSvc.create(event);
 
-        res.status(201).json(newEvent);
-    } catch (error) {
-        res.status(500).send(error.message);
+            res.status(201).json(newEvent);
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
     }
-});
+);
 
 /**
  * Update event
  * PUT events/:id
  */
-Router.put('/:id', async (req: Request, res: Response): Promise<any> => {
-    const { id } = req.params;
+Router.put(
+    '/:id',
+    async (req: Request, res: Response): Promise<any> => {
+        const { id } = req.params;
 
-    try {
-        const eventUpdate: Event = req.body;
+        try {
+            const eventUpdate: Event = req.body;
 
-        const existingEvent: Event = await EventSvc.find(id);
+            const existingEvent: Event = await EventSvc.find(id);
 
-        if (existingEvent) {
-            const updatedEvent = await EventSvc.update(id, eventUpdate);
-            return res.status(200).json(updatedEvent);
+            if (existingEvent) {
+                const updatedEvent = await EventSvc.update(id, eventUpdate);
+                return res.status(200).json(updatedEvent);
+            }
+
+            const newEvent = await EventSvc.create(eventUpdate);
+
+            return res.status(201).json(newEvent);
+        } catch (error) {
+            return res.status(500).send(error.message);
         }
-
-        const newEvent = await EventSvc.create(eventUpdate);
-
-        return res.status(201).json(newEvent);
-    } catch (error) {
-        return res.status(500).send(error.message);
     }
-});
+);
 
 /**
  * Delete event
  * DELETE events/:id
  */
-Router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
-    try {
-        const { id } = req.params;
-        await EventSvc.remove(id);
+Router.delete(
+    '/:id',
+    async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { id } = req.params;
+            await EventSvc.remove(id);
 
-        res.sendStatus(204);
-    } catch (error) {
-        res.status(500).send(error.message);
+            res.sendStatus(204);
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
     }
-});
+);
 
 export default Router;
