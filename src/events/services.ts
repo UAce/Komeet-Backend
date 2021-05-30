@@ -3,7 +3,9 @@ import { v4 as UUIDv4 } from 'uuid';
  * Data Model Interfaces
  */
 import { BaseEvent, Event, Events } from './interfaces';
+import Logger from '../common/logger';
 
+const logger = Logger.getInstance({ name: __filename });
 /**
  * In-Memory Store
  * TODO: Store in MongoDB
@@ -34,7 +36,7 @@ export const update = async (id: string, itemUpdate: BaseEvent): Promise<Event |
     const item = await find(id);
 
     if (!item) {
-        console.warn(`Event [${id}] does not exist`);
+        logger.warn(`Event [${id}] does not exist`);
         return null;
     }
 
