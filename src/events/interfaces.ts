@@ -4,6 +4,7 @@ export interface BaseEvent {
     description: string;
     calendarType: CalendarType;
     selected: string[];
+    example?: boolean; // TODO: remove this
 }
 
 export interface Event extends BaseEvent {

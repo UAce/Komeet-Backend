@@ -9,7 +9,7 @@ const Router = express.Router();
  * Get all events
  * GET events
  */
-Router.get('/', async (_: Request, res: Response) => {
+Router.get('/', async (_req: Request, res: Response) => {
     try {
         const events: Event[] = await EventSvc.findAll();
 
@@ -18,6 +18,30 @@ Router.get('/', async (_: Request, res: Response) => {
         res.status(500).send(error.message);
     }
 });
+
+/**
+ * Get example event
+ * GET events/:id
+ */
+Router.get(
+    '/example',
+    async (_req: Request, res: Response): Promise<any> => {
+        try {
+            const events: Event[] = await EventSvc.findAll();
+            const exampleEvent = events.find(event => {
+                console.log(event);
+                return event.example;
+            });
+            if (exampleEvent) {
+                return res.status(200).send(exampleEvent);
+            }
+
+            return res.status(404).send(`Example event not found`);
+        } catch (error) {
+            return res.status(500).send(error.message);
+        }
+    }
+);
 
 /**
  * Get event by Id

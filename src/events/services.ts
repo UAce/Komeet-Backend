@@ -9,22 +9,23 @@ import Logger from '../common/logger';
 const logger = Logger.getInstance({ name: __filename });
 
 /**
- * In-Memory Store
- * TODO: Store in MongoDB
+ * In-Memory data store (mock MongoDB documents)
+ * TODO: Store data in MongoDB
  */
-const items: Events = {};
+const events: Events = {};
 
 /**
  * Service Methods
  */
-export const findAll = async (): Promise<Event[]> => Object.values(items);
+export const findAll = async (): Promise<Event[]> => Object.values(events);
 
-export const find = async (id: string): Promise<Event> => items[id];
+export const find = async (id: string): Promise<Event> => events[id];
 
 export const create = async (newEvent: BaseEvent): Promise<Event> => {
     const id: string = nanoid();
 
-    items[id] = {
+    // TODO: server side dates validation, must be greater or equal than today
+    events[id] = {
         id,
         startTime: '9:00',
         endTime: '12:00',
@@ -33,7 +34,7 @@ export const create = async (newEvent: BaseEvent): Promise<Event> => {
         ...newEvent
     };
 
-    return items[id];
+    return events[id];
 };
 
 export const update = async (id: string, itemUpdate: BaseEvent): Promise<Event | null> => {
@@ -43,28 +44,29 @@ export const update = async (id: string, itemUpdate: BaseEvent): Promise<Event |
         logger.warn(`Event [${id}] does not exist`);
         return null;
     }
-    items[id] = { ...item, ...itemUpdate };
+    events[id] = { ...item, ...itemUpdate };
 
-    return items[id];
+    return events[id];
 };
 
 export const remove = async (id: string): Promise<void> => {
     const item = await find(id);
 
     if (item) {
-        delete items[id];
+        delete events[id];
     }
 };
 
 /**
- * Populate In-Memory Store
+ * Populate In-Memory data store
  */
 const initialEvents: BaseEvent[] = [
     {
         name: 'March Book Club',
         description: 'At Park Lafontaine from 2pm to 3pm',
         calendarType: 'dates',
-        selected: ['2022-05-30']
+        selected: ['2022-05-30'],
+        example: true
     }
 ];
 
