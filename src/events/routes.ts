@@ -28,15 +28,12 @@ Router.get(
     async (_req: Request, res: Response): Promise<any> => {
         try {
             const events: Event[] = await EventSvc.findAll();
-            const exampleEvent = events.find(event => {
-                console.log(event);
-                return event.example;
-            });
+            const exampleEvent = events.find((event: Event) => event.example);
             if (exampleEvent) {
                 return res.status(200).send(exampleEvent);
             }
 
-            return res.status(404).send(`Example event not found`);
+            return res.status(404).send('Example event not found');
         } catch (error) {
             return res.status(500).send(error.message);
         }
