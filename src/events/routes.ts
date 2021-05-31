@@ -9,7 +9,7 @@ const Router = express.Router();
  * Get all events
  * GET events
  */
-Router.get('/', async (req: Request, res: Response) => {
+Router.get('/', async (_: Request, res: Response) => {
     try {
         const events: Event[] = await EventSvc.findAll();
 

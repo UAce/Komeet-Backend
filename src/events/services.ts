@@ -17,9 +17,7 @@ const items: Events = {};
 /**
  * Service Methods
  */
-export const findAll = async (): Promise<Event[]> => {
-    return Object.values(items);
-};
+export const findAll = async (): Promise<Event[]> => Object.values(items);
 
 export const find = async (id: string): Promise<Event> => items[id];
 

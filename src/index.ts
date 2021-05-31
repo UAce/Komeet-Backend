@@ -47,7 +47,7 @@ app.use(
 
 // Routes Middlewares
 app.use('/health', (_: Request, res: Response) => res.send('Server is running!'));
-app.use('/komeet/v1/events', EventsRouter);
+app.use('/events', EventsRouter);
 
 // Error Middlewares
 app.use(errorHandler);

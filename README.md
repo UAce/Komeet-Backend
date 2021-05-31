@@ -11,7 +11,7 @@ npm init -y
 Install Express, DotEnv, CORS, Helmet, Morgan, Rotating file stream
 
 ```
-npm install express dotenv cors helmet morgan rotating-file-stream uuid
+npm install express dotenv cors helmet morgan rotating-file-stream nanoid
 ```
 
 ## Install Project Development Dependencies
@@ -19,7 +19,7 @@ npm install express dotenv cors helmet morgan rotating-file-stream uuid
 Install TypeScript, ts-node-dev and the Type Definitions of the dependencies
 
 ```
-npm install --save-dev typescript ts-node-dev @types/node @types/express @types/dotenv @types/cors @types/helmet @types/morgan @types/uuid
+npm install --save-dev typescript ts-node-dev @types/node @types/express @types/dotenv @types/cors @types/helmet @types/morgan
 ```
 
 ## Setup the project
