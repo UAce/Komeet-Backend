@@ -17,11 +17,9 @@ dotenv.config();
 /**
  * App Variables
  */
-const date: string = new Date()
-    .toISOString()
-    .split('T')[0]
-    .replace(/-/g, '_');
-const port: number = process.env.PORT ? Number(process.env.PORT) : 3000;
+const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '_');
+const port: number = Number(process.env.PORT || '4000');
+const host: string = process.env.HOST || 'localhost';
 const app = express(); // Creates Express app
 
 /**
@@ -56,7 +54,7 @@ app.use(notFoundHandler); // Last one is a catch-all
 /**
  * Server Activation
  */
-app.listen(port, () => {
+app.listen(port, host, () => {
     // eslint-disable-next-line
     console.log(`Server is running on port ${port}`);
 });
