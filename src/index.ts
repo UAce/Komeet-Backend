@@ -17,7 +17,10 @@ dotenv.config();
 /**
  * App Variables
  */
-const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '_');
+const date: string = new Date()
+    .toISOString()
+    .split('T')[0]
+    .replace(/-/g, '_');
 const port: number = process.env.PORT ? Number(process.env.PORT) : 3000;
 const app = express(); // Creates Express app
 
@@ -29,7 +32,7 @@ const app = express(); // Creates Express app
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'tiny' : 'dev'));
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 // setup the logger
 app.use(
