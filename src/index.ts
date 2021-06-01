@@ -18,8 +18,8 @@ dotenv.config();
  * App Variables
  */
 const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '_');
-const port: number = Number(process.env.PORT || '4000');
 const host: string = process.env.HOST || 'localhost';
+const port = Number(process.env.PORT || '4000');
 const app = express(); // Creates Express app
 
 /**
@@ -45,7 +45,7 @@ app.use(
 
 // Routes Middlewares
 app.use('/health', (_: Request, res: Response) => res.send('Server is running!'));
-app.use('/events', EventsRouter);
+app.use('/api/events', EventsRouter);
 
 // Error Middlewares
 app.use(errorHandler);
