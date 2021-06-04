@@ -51,7 +51,7 @@ Router.get('/:id', async (req: Request, res: Response): Promise<any> => {
             return res.status(200).send(event);
         }
 
-        return res.status(404).send(`event [${id}] not found`);
+        return res.status(404).send({ message: `Event [${id}] not found` });
     } catch (error) {
         return res.status(500).send(error.message);
     }
