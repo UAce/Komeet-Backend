@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
  * Data Model Interfaces
  */
 import { BaseEvent, Event, Events } from './interfaces';
-import Logger from '../common/logger';
+import Logger from '../../common/logger';
 
 const logger = Logger.getInstance({ name: __filename });
 
@@ -22,19 +22,16 @@ export const findAll = async (): Promise<Event[]> => Object.values(events);
 export const find = async (id: string): Promise<Event> => events[id];
 
 export const create = async (newEvent: BaseEvent): Promise<Event> => {
-    const id: string = nanoid();
+    const eventId: string = nanoid();
 
     // TODO: server side dates validation, must be greater or equal than today
-    events[id] = {
-        id,
-        startTime: '9:00',
-        endTime: '12:00',
-        timezone: 'America/Montreal',
+    events[eventId] = {
+        eventId,
         maxParticipants: 20,
         ...newEvent
     };
 
-    return events[id];
+    return events[eventId];
 };
 
 export const update = async (id: string, itemUpdate: BaseEvent): Promise<Event | null> => {

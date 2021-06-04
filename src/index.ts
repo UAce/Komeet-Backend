@@ -9,7 +9,8 @@ import morgan from 'morgan';
 import path from 'path';
 import { createStream } from 'rotating-file-stream';
 
-import EventsRouter from './events/routes';
+import EventsRouter from './api/events/routes';
+import SigninRouter from './api/signin/routes';
 import { errorHandler, notFoundHandler } from './middleware/errorMiddleware';
 
 dotenv.config();
@@ -46,6 +47,7 @@ app.use(
 // Routes Middlewares
 app.use('/health', (_: Request, res: Response) => res.send('Server is running!'));
 app.use('/api/events', EventsRouter);
+app.use('/api/signin', SigninRouter);
 
 // Error Middlewares
 app.use(errorHandler);

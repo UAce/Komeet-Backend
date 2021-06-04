@@ -4,14 +4,14 @@ export interface BaseEvent {
     description: string;
     calendarType: CalendarType;
     selected: string[];
+    startTime: string; // 24h format, e.g. 9:00
+    endTime: string; // 24h format, e.g. 00:00
+    timezone: string; // default America/Montreal
     example?: boolean; // TODO: remove this
 }
 
 export interface Event extends BaseEvent {
-    id: string;
-    startTime: string; // 24h format
-    endTime: string; // 24h format
-    timezone: string; // default America/Montreal
+    eventId: string;
     maxParticipants: number; // default 20
 }
 
