@@ -9,6 +9,12 @@ export interface Participant extends BaseParticipant {
     availabilities: number[][];
 }
 
+export interface MinimalParticipant {
+    username: string;
+    availabilities: number[][];
+}
+
+export type ListOfParticipants = MinimalParticipant[];
 export interface Participants {
     [username: string]: Participant;
 }

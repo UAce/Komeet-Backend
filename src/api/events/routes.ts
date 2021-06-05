@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 
 import * as EventSvc from './services';
+import * as SigninSvc from '../signin/services';
 import { BaseEvent, Event } from './interfaces';
 
 const Router = express.Router();
@@ -48,7 +49,8 @@ Router.get('/:id', async (req: Request, res: Response): Promise<any> => {
         const event: Event = await EventSvc.find(id);
 
         if (event) {
-            return res.status(200).send(event);
+            const participants = await SigninSvc.getEventParticipantsWithoutPassword(event.eventId);
+            return res.status(200).send({ ...event, participants });
         }
 
         return res.status(404).send({ message: `Event [${id}] not found` });

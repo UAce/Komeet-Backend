@@ -1,5 +1,5 @@
 type CalendarType = 'dates' | 'days';
-export interface BaseEvent {
+export interface BaseEventModel {
     name: string;
     description: string;
     calendarType: CalendarType;
@@ -10,7 +10,7 @@ export interface BaseEvent {
     example?: boolean; // TODO: remove this
 }
 
-export interface Event extends BaseEvent {
+export interface EventModel extends BaseEventModel {
     eventId: string;
     maxParticipants: number; // default 20
 }

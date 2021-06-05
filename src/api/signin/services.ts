@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import crypto from 'crypto';
 
-import { BaseParticipant, EventParticipants, Participant, Participants } from './interfaces';
+import { BaseParticipant, EventParticipants, ListOfParticipants, Participant, Participants } from './interfaces';
 import Logger from '../../common/logger';
 
 const logger = Logger.getInstance({ name: __filename });
@@ -27,6 +27,18 @@ export const getEventParticipants = async (eventId: string): Promise<Participant
         participants = eventParticipants[eventId];
     }
     return participants;
+};
+
+export const getEventParticipantsWithoutPassword = async (eventId: string): Promise<ListOfParticipants> => {
+    const participants: Participants = await getEventParticipants(eventId);
+
+    return Object.keys(participants).map((name: string) => {
+        const { username, availabilities } = participants[name];
+        return {
+            username,
+            availabilities
+        };
+    });
 };
 
 export const validatePassword = async (participant: Participant, password = ''): Promise<boolean> => {
