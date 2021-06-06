@@ -1,14 +1,14 @@
 import { Schema, model, Model, Document } from 'mongoose';
 
-import { IParticipant } from '../models/participantsModel';
+import { IParticipant } from './participantsModel';
 
-type CalendarType = 'calendar' | 'weekdays';
+type EventType = 'dates' | 'weekdays';
 
 export interface IEvent extends Document {
     name: string;
     description: string;
-    calendarType: CalendarType;
-    selected: string[];
+    eventType: EventType;
+    possibleDates: string[];
     startTime: string;
     endTime: string;
     timezone: string;
@@ -27,7 +27,15 @@ const eventsModelSchema = new Schema<IEvent>({
         type: String,
         default: ''
     },
-    eventType: ['calendar', 'weekdays'],
+    eventType: {
+        type: String,
+        enum: ['dates', 'weekdays'],
+        required: true
+    },
+    possibleDates: {
+        type: [String],
+        required: true
+    },
     startTime: {
         type: String,
         required: true

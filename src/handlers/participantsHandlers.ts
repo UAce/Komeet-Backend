@@ -37,6 +37,7 @@ export const signin = async (req: Request, res: Response): Promise<void> => {
         const { username: name, availabilities: avail } = participant;
         res.status(200).send({ username: name, availabilities: avail });
     } catch (error) {
+        logger.error({ error }, 'Failed to sign in');
         res.status(500).send(error.message);
     }
 };

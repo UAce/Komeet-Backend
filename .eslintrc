@@ -19,6 +19,7 @@
         "max-len": ["error", { "code": 120, "tabWidth": 4, "ignoreComments": true }],
         "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
         "object-curly-newline": 0,
-        "@typescript-eslint/no-explicit-any": 0
+        "@typescript-eslint/no-explicit-any": 0,
+        "import/prefer-default-export": 0
     }
 }

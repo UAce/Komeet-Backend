@@ -11,7 +11,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "eslint . --ext .ts",
         "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
-        "build": "tsc -p .",
+        "build": "npm run prettier && npm run lint && tsc -p .",
         "prod": "node build/src/index.js",
         "prettier": "prettier --config .prettierrc src/**/*.ts --write"
     },
