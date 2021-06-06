@@ -31,7 +31,12 @@ export const signin = async (req: Request, res: Response): Promise<void> => {
 
             const hashedPassword = await getHash(password);
             participant = new Participants({ ...participantData, password: hashedPassword });
+            logger.debug('saving new participants');
             await participant.save();
+
+            // Push participant ref to event and save
+            event.participants.push(participant);
+            await event.save();
         }
 
         const { username: name, availabilities: avail } = participant;
