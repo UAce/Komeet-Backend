@@ -7,11 +7,12 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 import path from 'path';
 import { createStream } from 'rotating-file-stream';
 
-import EventsRouter from './api/events/routes';
-import SigninRouter from './api/signin/routes';
+import EventsRoutes from './routes/eventsRoutes';
+import ParticipantsRoutes from './routes/participantsRoutes';
 import { errorHandler, notFoundHandler } from './middleware/errorMiddleware';
 
 dotenv.config();
@@ -36,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
-// setup the logger
+// setup the request logger
 app.use(
     morgan('common', {
         stream: createStream(`komeet_${date}.log`, {
@@ -49,17 +50,32 @@ app.use(
 
 // Routes Middlewares
 app.use('/health', (_: Request, res: Response) => res.send('Server is running!'));
-app.use('/api/events', EventsRouter);
-app.use('/api/signin', SigninRouter);
+app.use('/api/events', EventsRoutes);
+app.use('/api/participants', ParticipantsRoutes);
 
 // Error Middlewares
 app.use(errorHandler);
 app.use(notFoundHandler); // Last one is a catch-all
 
+const url = process.env.DATABASE_URL;
+
+if (!url) {
+    throw new Error('Database URL not specified');
+}
 /**
- * Server Activation
+ * Connec to DB and start Server
  */
-app.listen(port, host, () => {
-    // eslint-disable-next-line
-    console.log(`Server is running on port ${port}`);
-});
+mongoose
+    .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        app.listen(port, host, () => {
+            // eslint-disable-next-line
+            console.log(`Server is running on port ${port}`);
+        });
+    })
+    .catch((error) => {
+        // eslint-disable-next-line
+        console.error(error);
+    });
+
+mongoose.set('useFindAndModify', false);
