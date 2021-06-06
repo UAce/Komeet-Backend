@@ -1,6 +1,6 @@
 import { Schema, model, Model, Document } from 'mongoose';
 
-import { IParticipant } from './participantsModel';
+import { IParticipant } from './participantModel';
 
 type EventType = 'dates' | 'weekdays';
 
@@ -17,7 +17,7 @@ export interface IEvent extends Document {
     participants: IParticipant[];
 }
 
-const eventsModelSchema = new Schema<IEvent>({
+const eventModelSchema = new Schema<IEvent>({
     _id: String,
     name: {
         type: String,
@@ -59,11 +59,11 @@ const eventsModelSchema = new Schema<IEvent>({
     participants: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Participants'
+            ref: 'Participant'
         }
     ]
 });
 
-const Events: Model<IEvent> = model<IEvent>('Events', eventsModelSchema);
+const Event: Model<IEvent> = model<IEvent>('Event', eventModelSchema);
 
-export default Events;
+export default Event;

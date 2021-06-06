@@ -8,7 +8,7 @@ export interface IParticipant extends Document {
     eventId: string;
 }
 
-const participantsModelSchema = new Schema({
+const participantModelSchema = new Schema({
     username: {
         type: String,
         required: true
@@ -27,10 +27,10 @@ const participantsModelSchema = new Schema({
     },
     eventId: {
         type: String,
-        ref: 'Events'
+        ref: 'Event'
     }
 });
 
-const Participants: Model<IParticipant> = model('Participants', participantsModelSchema);
+const Participant: Model<IParticipant> = model('Participant', participantModelSchema);
 
-export default Participants;
+export default Participant;
